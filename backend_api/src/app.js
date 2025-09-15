@@ -3,9 +3,16 @@ const express = require('express');
 const routes = require('./routes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('../swagger');
+require('dotenv').config();
+const { initDb } = require('./config/db');
 
 // Initialize express app
 const app = express();
+
+// Initialize DB pool at startup
+initDb().catch((e) => {
+  console.error('Failed to initialize DB:', e.message);
+});
 
 app.use(cors({
   origin: '*',
